@@ -11,26 +11,52 @@ package data;
  */
 public class Instruction {
     
+    private int currentState;
+    private String currentValue;
     
-    private int cState;
-    private String newVal;
-    private int direction;
-
-    public Instruction(int cState, String newVal, int direction) {
-            this.cState = cState;
-            this.newVal = newVal;
-            this.direction = direction;
+    private int newState;
+    private String newValue;
+    private String direction;
+    
+    public Instruction(int cs, String cv, int sc, String vc, String dir) {
+            currentState = cs;
+            currentValue = cv;
+            newState = sc;
+            newValue = vc;
+            direction = dir;
     }
-    public int getState() {
-            return cState;
+    public Instruction(int cs, String cv, int sc, String dir) {
+            currentState = cs;
+            currentValue = cv;
+            newState = sc;
+            direction = dir;
+    }    
+    public Instruction(int cs, int sc, String vc, String dir) {
+            currentState = cs;
+            newState = sc;
+            newValue = vc;
+            direction = dir;
+    }    
+    
+    
+    public int getCS() {
+            return currentState;
     }
-    public int getDirection() {
+    public String getCV() {
+            return currentValue;
+    }
+    public int getSC() {
+            return newState;
+    }    
+    public String getVC() {
+            return newValue;
+    }    
+    public String getDir() {
             return direction;
     }    
-    public String getNewVal() {
-            return newVal;
-    }
+
     public String toString() {
-            return "("+cState+", "+newVal+", "+direction+")";
+            return "G("+currentState+","+currentValue+")=("+newState
+                    +","+newValue+","+direction+")";
     }        
 }

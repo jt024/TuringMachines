@@ -1,6 +1,6 @@
-Assignment:     Create a Turing machine. 
-Purpose:
-This program should prompt user for the transition functions.  
-IT uses universal Turing machine convention and always 
-starts in state 1.
-State 2 will be the final accepting state.
+Assignment: 
+Create a Turing machine. 
+Author:
+Johnny Trevino
+Course:
+Algorithm Design and Analysis

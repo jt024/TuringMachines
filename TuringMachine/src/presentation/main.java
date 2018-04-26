@@ -10,8 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-
 import data.Instruction;
+import data.TuringMachine;
+import tools.Counter;
 
 /**
 * The main interface between program and user
@@ -20,13 +21,10 @@ import data.Instruction;
 * @author Johnny Trevino
 */
 public class main extends javax.swing.JFrame {
-    ArrayList<Instruction> instructions = new ArrayList();
-    StringBuilder sb = new StringBuilder();
-    public int currentState = 1
-            ,numChars
-            ,states;
-    
-    
+    StringBuilder sb,rc = new StringBuilder();
+    public int currentState = 1, numChars, states;
+    Instruction[] instructions;
+    Counter bar;
     
     public JFrame frame = new JFrame();
     public String fileName = "src\\resource\\Assignment_Instructions";
@@ -39,35 +37,7 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
-        pnRule.setVisible(false);
-        String line;
-        try {
-            FileReader fileReader = 
-                new FileReader(fileName);
-
-            // wraps FileReader in BufferedReader.
-            BufferedReader bufferedReader = 
-                new BufferedReader(fileReader);
-
-            while((line = bufferedReader.readLine()) != null) {
-                ta2User.append(line+"\n");
-                ta2User.append("\n");
-            }   
-            // close file
-            bufferedReader.close();         
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + fileName + "'");                  
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
+        assignment();
     }
 
     /**
@@ -83,20 +53,23 @@ public class main extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ta2User = new javax.swing.JTextArea();
         pnRule = new javax.swing.JPanel();
-        tfCurrentStateRule = new javax.swing.JTextField();
-        tfInputRule = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        tfValueChange = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        tfChange2State = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        tfDirection = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        bnCreateRule = new javax.swing.JButton();
+        tfCurrentState = new javax.swing.JTextField();
+        tfCurrentValue = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tfInputChangeRule = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        tfChangeStateRule = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        tfMoveRule = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        bnCreateRule = new javax.swing.JButton();
+        lbRuleCount = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        bnCreateRule1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,19 +85,11 @@ public class main extends javax.swing.JFrame {
         ta2User.setRows(5);
         jScrollPane1.setViewportView(ta2User);
 
-        jLabel1.setText("=");
-
-        jLabel2.setText("(");
-
-        jLabel3.setText(")");
-
         jLabel4.setText(",");
 
-        jLabel5.setText(")");
-
-        tfInputChangeRule.addActionListener(new java.awt.event.ActionListener() {
+        tfValueChange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfInputChangeRuleActionPerformed(evt);
+                tfValueChangeActionPerformed(evt);
             }
         });
 
@@ -141,61 +106,94 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("=");
+
+        jLabel2.setText("(");
+
+        jLabel3.setText(")");
+
+        jLabel5.setText(")");
+
         javax.swing.GroupLayout pnRuleLayout = new javax.swing.GroupLayout(pnRule);
         pnRule.setLayout(pnRuleLayout);
         pnRuleLayout.setHorizontalGroup(
             pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnRuleLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfCurrentStateRule, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfInputRule, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfChangeStateRule, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfInputChangeRule, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfMoveRule, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(bnCreateRule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnRuleLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnRuleLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCurrentState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfChange2State, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfValueChange, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5))
+                    .addComponent(bnCreateRule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbRuleCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         pnRuleLayout.setVerticalGroup(
             pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnRuleLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnRuleLayout.createSequentialGroup()
+                .addComponent(lbRuleCount, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfChangeStateRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfChange2State, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
                         .addComponent(jLabel6)
-                        .addComponent(tfInputChangeRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfValueChange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel8)
-                        .addComponent(tfMoveRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5))
                     .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfCurrentStateRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfCurrentState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
                         .addComponent(jLabel4)
-                        .addComponent(tfInputRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bnCreateRule))
+        );
+
+        bnCreateRule1.setText("Add Tape");
+        bnCreateRule1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnCreateRule1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bnCreateRule1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(77, Short.MAX_VALUE)
+                .addComponent(bnCreateRule1)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -204,76 +202,86 @@ public class main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bnStart)
-                    .addComponent(pnRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 70, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bnStart)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(bnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 222, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap()
+                        .addComponent(bnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnStartActionPerformed
-        states = Integer.parseInt(JOptionPane.showInputDialog(
-            frame, 
-            "Enter the total number of states", 
-            "STATES", 
-            JOptionPane.WARNING_MESSAGE)
-        );
-        numChars = Integer.parseInt(JOptionPane.showInputDialog(            
-            frame, 
-            "Enter the total number of characters", 
-            "Characters", 
-            JOptionPane.WARNING_MESSAGE)
-        );
+        getStates();
+        getCharacters();
+        instructions = new Instruction[states*numChars];
         
-        ta2User.setText("So far I understand there will be \n\n"+ states +" states"
+        ta2User.setText("There will be "+ states +" states"
                 + " and "
-                + numChars+" characters");
+                + numChars+" characters \nThat is"
+                + " gives you a maximum of "
+                + (states*numChars)+" rules to work with.\n"
+                + "When you run out of the lines below "
+                + "you are out of rules");
         
-        
-        
-        
+        TuringMachine tm = new TuringMachine(numChars, states);
+        bar = new Counter(numChars*states);
+        lbRuleCount.setText(bar.getBar());
         pnRule.setVisible(true);
     }//GEN-LAST:event_bnStartActionPerformed
 
-    private void tfInputChangeRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfInputChangeRuleActionPerformed
+    private void tfValueChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValueChangeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfInputChangeRuleActionPerformed
+    }//GEN-LAST:event_tfValueChangeActionPerformed
 
     private void bnCreateRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRuleActionPerformed
-        int dir;
-        if (tfMoveRule.getText().compareToIgnoreCase("r")==0) 
-            dir = 1;
-        else if (tfMoveRule.getText().compareToIgnoreCase("l")==0)
-            dir = -1;
-        else
-            dir = 0;
-        int t =Integer.parseInt(tfChangeStateRule.getText());
-        Instruction n = new Instruction(
-                t,
-                tfInputChangeRule.getText(),
-                dir
-                );
-        instructions.add(n);
-        sb.append(n.toString()+"\n");
-        ta2User.setText(sb.toString());
+        // current
+        int cs = Integer.parseInt(tfCurrentState.getText());
+        String cv = tfCurrentValue.getText();
+        
+        // change to this
+        String vc = tfValueChange.getText();
+        int sc = Integer.parseInt(tfChange2State.getText());
+        String dir = tfDirection.getText();;
+        
+        instructions[bar.getCount()] = new Instruction(cs,cv,sc,vc,dir);
+        bar.decBar();
+        lbRuleCount.setText(bar.getBar());
+        
+//        Instruction n = new Instruction(
+//                t,
+//                tfInputChangeRule.getText(),
+//                dir
+//                );
+//        instructions.add(n);
+//        sb.append(n.toString()+"\n");
+//        ta2User.setText(sb.toString());
         
     }//GEN-LAST:event_bnCreateRuleActionPerformed
+
+    private void bnCreateRule1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRule1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bnCreateRule1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,6 +320,7 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnCreateRule;
+    private javax.swing.JButton bnCreateRule1;
     private javax.swing.JButton bnStart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -321,13 +330,78 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbRuleCount;
     private javax.swing.JPanel pnRule;
     private javax.swing.JTextArea ta2User;
-    private javax.swing.JTextField tfChangeStateRule;
-    private javax.swing.JTextField tfCurrentStateRule;
-    private javax.swing.JTextField tfInputChangeRule;
-    private javax.swing.JTextField tfInputRule;
-    private javax.swing.JTextField tfMoveRule;
+    private javax.swing.JTextField tfChange2State;
+    private javax.swing.JTextField tfCurrentState;
+    private javax.swing.JTextField tfCurrentValue;
+    private javax.swing.JTextField tfDirection;
+    private javax.swing.JTextField tfValueChange;
     // End of variables declaration//GEN-END:variables
+
+
+    
+    public void assignment(){
+        pnRule.setVisible(false);
+        
+        String line;
+        
+        try {
+            FileReader fileReader = 
+                new FileReader(fileName);
+
+            // wraps FileReader in BufferedReader.
+            BufferedReader bufferedReader = 
+                new BufferedReader(fileReader);
+            int lcount = 0;
+            while((line = bufferedReader.readLine()) != null) {
+                lcount++;
+                ta2User.append(line);
+                if (lcount%2==0) {
+                    ta2User.append("\n");
+                }
+                else{
+                    ta2User.append("\t");
+                }
+                
+            }   
+            // close file
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");                  
+            // Or we could just do this: 
+            // ex.printStackTrace();
+        }
+    }   
+    
+    public void getStates(){
+        // ask user for number of characters
+        states = Integer.parseInt(JOptionPane.showInputDialog(
+        frame, 
+        "Enter the total number of states", 
+        "STATES", 
+        JOptionPane.WARNING_MESSAGE)
+        );
+    }
+    // ask user for number of characters
+    public void getCharacters(){
+        numChars = Integer.parseInt(JOptionPane.showInputDialog(            
+            frame, 
+            "Enter the total number of characters", 
+            "Characters", 
+            JOptionPane.WARNING_MESSAGE)
+        );
+    }    
+    
 }
