@@ -22,7 +22,7 @@ import tools.Counter;
 */
 public class main extends javax.swing.JFrame {
     StringBuilder sb,rc = new StringBuilder();
-    public int currentState = 1, numChars, states;
+    public int currentState = 1, numChars, states, head;
     Instruction[] instructions;
     Tape tape;
     char[] characters;
@@ -255,6 +255,11 @@ public class main extends javax.swing.JFrame {
         );
 
         bnExecute.setText("Execute");
+        bnExecute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnExecuteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnExecuteLayout = new javax.swing.GroupLayout(pnExecute);
         pnExecute.setLayout(pnExecuteLayout);
@@ -333,23 +338,34 @@ public class main extends javax.swing.JFrame {
     private void bnCreateRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRuleActionPerformed
         if (checkRules()<0)
             return;
-
+        pnExecute.setVisible(true);
         // current
         int cs = Integer.parseInt(tfCurrentState.getText());
-        String cv = tfCurrentValue.getText();
+        char cv = tfCurrentValue.getText().charAt(0);
         
         // change to this
-        String vc = tfValueChange.getText();
+        char vc = tfValueChange.getText().charAt(0);
         int sc = Integer.parseInt(tfChange2State.getText());
         String dir = tfDirection.getText();;
         
         instructions[counter.getRCount()-1] = new Instruction(cs,cv,sc,vc,dir);
        
         ta2User.setText("Rule Created: \n"+instructions[counter.getRCount()-1].toString());
+        ta2User.append("\n\n\n\nOnce all the rules are entered you and you have a tape\n"
+                + "you can run the machine");
         
         counter.decRBar();
         
         lbRuleCount.setText(counter.getRBar());
+        tfCurrentState.setText("");
+        tfCurrentValue.setText("");
+        tfValueChange.setText("");
+        tfChange2State.setText("");
+        tfDirection.setText("");
+        tfCurrentState.requestFocus();
+        
+        
+
         
         
     }//GEN-LAST:event_bnCreateRuleActionPerformed
@@ -405,6 +421,60 @@ public class main extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_bnAddTapeActionPerformed
+
+    private void bnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnExecuteActionPerformed
+        if (tape.getLength()<1) {
+            ta2User.setText("You forgot the tape");
+            return;
+        }
+        
+        ta2User.setText("Starting State = " + currentState+"\n");
+        ta2User.append(tape.toString()+"\n");
+        
+        
+        head = tape.getLength() / 2;
+        char hChar = tape.getChar(head);
+        boolean notFinal = true;
+        do{
+        
+        Instruction temp = new Instruction();
+        
+        for (int i = 0; i < instructions.length; i++) {
+            if (instructions[i].getCS()==currentState && instructions[i].getCV() == hChar) {
+                temp = instructions[i];
+            }
+        }
+        System.out.println(temp.toString());
+        
+        tape.setChar(temp.getVC(), head);
+        head = head + move(temp.getDir());
+        if(checkHead()<0){
+            ta2User.setText("I have reached the left end of the tape and got stuck.\n"
+                    + "Try again");
+            return;
+        }
+        if(checkHead()>0){
+            ta2User.setText("I have reached the right end of the tape and got stuck.\n"
+                    + "Try again");
+            return;
+        }
+        if (currentState==states) {
+            ta2User.setText("I have reached the Final Accepting State.");
+            return;                
+        }
+        
+        currentState = temp.getSC();
+        
+        ta2User.append("Current State = " + currentState);
+        ta2User.append(tape.toString()+"\n");
+        
+        
+        } while (notFinal);
+        
+        
+        
+        
+    }//GEN-LAST:event_bnExecuteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,13 +619,6 @@ public class main extends javax.swing.JFrame {
                     + "be between 0 and "+states);
             return-1;
         }
-        if (Integer.parseInt(tfChange2State.getText())>states || Integer.parseInt(tfCurrentState.getText())< 1) {
-            ta2User.setText("Sorry, the state you want to change to in that rule\nneeds to"
-                    + "be between 0 and "+states);
-            return-1;
-        }        
-        
-        
         
         return 1;
     }
@@ -579,6 +642,25 @@ public class main extends javax.swing.JFrame {
         
     }
     
+    public int move(String dir){
+        
+        if (dir.equalsIgnoreCase("r")) {
+            return 1;
+        }
+        return -1;
+        
+    }
+    
+    public int checkHead(){
+        if (head<0) {
+            return -1;
+        }
+        if (head>tape.getLength()) {
+            return 2;
+        }
+        
+        return 0;
+    }
     
     
 }

@@ -12,26 +12,27 @@ package data;
 public class Instruction {
     
     private int currentState;
-    private String currentValue;
+    private char currentValue;
     
     private int newState;
-    private String newValue;
+    private char newValue;
     private String direction;
-    
-    public Instruction(int cs, String cv, int sc, String vc, String dir) {
+   
+    public Instruction(){}
+    public Instruction(int cs, char cv, int sc, char vc, String dir) {
             currentState = cs;
             currentValue = cv;
             newState = sc;
             newValue = vc;
             direction = dir;
     }
-    public Instruction(int cs, String cv, int sc, String dir) {
+    public Instruction(int cs, char cv, int sc, String dir) {
             currentState = cs;
             currentValue = cv;
             newState = sc;
             direction = dir;
     }    
-    public Instruction(int cs, int sc, String vc, String dir) {
+    public Instruction(int cs, int sc, char vc, String dir) {
             currentState = cs;
             newState = sc;
             newValue = vc;
@@ -42,13 +43,13 @@ public class Instruction {
     public int getCS() {
             return currentState;
     }
-    public String getCV() {
+    public char getCV() {
             return currentValue;
     }
     public int getSC() {
             return newState;
     }    
-    public String getVC() {
+    public char getVC() {
             return newValue;
     }    
     public String getDir() {
