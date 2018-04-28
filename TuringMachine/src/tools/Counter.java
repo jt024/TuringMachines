@@ -11,32 +11,92 @@ package tools;
  */
 public class Counter {
     StringBuilder rc;
-    String bar;
+    String rBar;
+    String cBar;
     int rCount;
+    int cCount;
     
-    public Counter(int x){
+    public Counter(int r, int c){
+        rCount = r;
+        cCount = c;
+        setRString();
+        setCString();
+
+    }
+    
+    // create bars base on count
+    private void setRString(){
         rc = new StringBuilder();
-        rCount = x;
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i < rCount; i++) {
             rc.append(" |");
         }
-        bar = rc.toString();
+        rBar = rc.toString();
     }
-    public void decBar(){
+    private void setCString(){
+        rc = new StringBuilder();
+        for (int i = 0; i < cCount; i++) {
+            rc.append(" |");
+        }
+        cBar = rc.toString();
+    }    
+    
+    // decrease count and call update for bars
+    public void decRBar(){
         rCount--;
+        updateBar();
     }
-    public void resBar(){
+    public void decCBar(){
+        cCount--;
+        updateBar();
+    }
+    
+    
+    // reset bars
+    public void resRBar(){
         rCount=0;
-        bar="";
+        rBar="";
     }
-    public String getBar(){
-        return bar;
+    public void resCBar(){
+        cCount=0;
+        cBar="";
+    }    
+    
+    
+    // get strings for bars
+    public String getRBar(){
+        return rBar;
     }
-    public int getCount(){
+    public String getCBar(){
+        return cBar;
+    }    
+    
+    // get numeric count for bars
+    public int getRCount(){
         return rCount;
     }
+    public int getCCount(){
+        return cCount;
+    }    
     
     
     
+    // update bar string for bars
+    private void updateBar(){
+        // first update the rule bar
+        rc = new StringBuilder();
+        
+        for (int i = 0; i < rCount; i++) {
+            rc.append(" |");
+        }        
+        rBar = rc.toString();
+        // first update the character bar
+        rc = new StringBuilder();
+        
+        for (int i = 0; i < cCount; i++) {
+            rc.append(" |");
+        }        
+        cBar = rc.toString();        
+        
+    }
     
 }
