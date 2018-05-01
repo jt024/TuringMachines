@@ -11,7 +11,7 @@ package data;
  */
 public class TuringMachine {
     private int tLength;
-    private Link head;
+    private Link root, head;
     private int state=1;
     private Instruction[] rules;
     public int ruleCount=0;
@@ -19,14 +19,18 @@ public class TuringMachine {
     
     public TuringMachine(int rules){
         this.rules = new Instruction[rules];
-        head = null;
+        root = null;
         
         
     }
 
     public void runOnce(){
+        head = root;
         for (int i = 0; i < 3; i++) {
-            head = head.getRight();
+            if (head.getRight()!=null) {
+                head = head.getRight();
+            }
+            
         }
         
         
@@ -54,26 +58,26 @@ public class TuringMachine {
 
 //    public TuringMachine(){}
     public void addTape(Link nLink){
-        if (head==null) {
-            head = nLink;
+        if (root==null) {
+            root = nLink;
             tLength=1;
             return;
-        } else if (head.getLeft()==null){
-            nLink.setRight(head);
-            head.setLeft(nLink);
+        } else if (root.getLeft()==null){
+            nLink.setRight(root);
+            root.setLeft(nLink);
             tLength++;
             return;
-        } else if(head.getRight()==null){
-            nLink.setLeft(head);
-            head.setRight(nLink);
+        } else if(root.getRight()==null){
+            nLink.setLeft(root);
+            root.setRight(nLink);
             tLength++;
             return;
         }
-        while(head.getLeft()!=null){
-            head = head.getLeft();
+        while(root.getLeft()!=null){
+            root = root.getLeft();
         }
-        nLink.setRight(head);
-        head.setLeft(nLink);
+        nLink.setRight(root);
+        root.setLeft(nLink);
         tLength++;
     }
     public void addRule(Instruction newRule){
@@ -88,22 +92,22 @@ public class TuringMachine {
 
     // Move
     public void moveLeft() throws NullPointerException {
-        if (head.getLeft()==null) {
+        if (root.getLeft()==null) {
             throw new NullPointerException("No more tape to the left!");
         }
         else
-            head = head.getLeft();
+            root = root.getLeft();
     }
     public void moveRight(){
-        if (head.getRight()==null) {
+        if (root.getRight()==null) {
             throw new NullPointerException("No more tape to the right!");
         }
         else
-            head = head.getRight();
+            root = root.getRight();
     }
 
     public char getHeadVal(){
-        return head.getVal();
+        return root.getVal();
     }
     public int getCurrentState(){
         return state;
@@ -111,14 +115,14 @@ public class TuringMachine {
     
     
     public void changeVal(char newVal){
-        head.setVal(newVal);
+        root.setVal(newVal);
     }
     public void changeState(int state){
         this.state = state;
     }
     
     public char getHead(){
-        return head.getVal();
+        return root.getVal();
     }
 //    public String getRule(int element){
 //        
@@ -135,11 +139,11 @@ public class TuringMachine {
     public String tToString(){
         StringBuilder sb = new StringBuilder();
         Link iterator;
-        if (head.getLeft()==null) {
-            iterator = head;
+        if (root.getLeft()==null) {
+            iterator = root;
         }
         else{
-            iterator = head.getLeft();
+            iterator = root.getLeft();
         }
         
         sb.append("[");
@@ -157,9 +161,9 @@ public class TuringMachine {
     
     @Override
     public String toString(){
-        return "The head on "+head.getVal()+"\nTo the right "
-                + "is "+head.getRight().getVal()+"\nTo the left "
-                + "is "+head.getLeft().getVal();
+        return "The head on "+root.getVal()+"\nTo the right "
+                + "is "+root.getRight().getVal()+"\nTo the left "
+                + "is "+root.getLeft().getVal();
     }        
         
 
