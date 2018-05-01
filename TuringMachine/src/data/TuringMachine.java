@@ -12,17 +12,42 @@ package data;
 public class TuringMachine {
     private int tLength;
     private Link head;
-    private int state;
+    private int state=1;
     private Instruction[] rules;
-    private int ruleCount=0;
+    public int ruleCount=0;
+    private StringBuilder ruleSB;
     
     public TuringMachine(int rules){
         this.rules = new Instruction[rules];
         head = null;
+        
+        
     }
+
+    public void runOnce(){
+        for (int i = 0; i < ruleCount-1; i++) {
+            if (head.getVal()==rules[i].getCV() && state==rules[i].getCS()) {
+                head.setVal(rules[i].getVC());
+                state = rules[i].getSC();
+                if (rules[i].getDir().equalsIgnoreCase("r") && head.getRight()!=null) {
+                    head = head.getRight();
+                }
+                else if (rules[i].getDir().equalsIgnoreCase("l") && head.getLeft()!=null) {
+                    head = head.getLeft();
+                }
+                
+                
+            }
+            
+            
+            
+        }
+        
+    }
+
+
+
 //    public TuringMachine(){}
-    
-    
     public void addTape(Link nLink){
         if (head==null) {
             head = nLink;
@@ -48,36 +73,13 @@ public class TuringMachine {
     }
     public void addRule(Instruction newRule){
         rules[ruleCount] = newRule;
+        ruleCount++;
     }
     
     // Strings
-    public String rToString(){
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < rules.length-1; i++) {
-            sb.append(rules[i].toString()+"\n");
-        }
-        return sb.toString();
+    public int getRuleCount(){
+        return ruleCount;
     }
-    public String tToString(){
-        StringBuilder sb = new StringBuilder();
-        Link iterator = head;
-        sb.append("[");
-        sb.append(iterator.toString());
-        sb.append("][");
-        while(iterator.getRight()!=null){
-            iterator = iterator.getRight();
-            sb.append(iterator.toString());
-            sb.append("][");
-        }
-        sb.append("]");
-        return sb.toString();
-        
-    }
-    
-    
-
-
-
 
     // Move
     public void moveLeft() throws NullPointerException {
@@ -110,19 +112,44 @@ public class TuringMachine {
         this.state = state;
     }
     
-    
-    
-
-    
-    
-    
-    
-
-
-    
     public char getHead(){
         return head.getVal();
     }
+//    public String getRule(int element){
+//        
+//    }
+    public String rToString(){
+        ruleSB = new StringBuilder();
+        
+        for (int i = 0; i < ruleCount; i++) {
+            ruleSB.append(rules[i].toString());
+            ruleSB.append("\n");
+        }
+        return ruleSB.toString();
+    }
+    public String tToString(){
+        StringBuilder sb = new StringBuilder();
+        Link iterator;
+        if (head.getLeft()==null) {
+            iterator = head;
+        }
+        else{
+            iterator = head.getLeft();
+        }
+        
+        sb.append("[");
+        sb.append(iterator.toString());
+        while(iterator.getRight()!=null){
+            sb.append("][");
+            iterator = iterator.getRight();
+            sb.append(iterator.toString());
+            
+        }
+        sb.append("]");
+        return sb.toString();
+        
+    }    
+    
     @Override
     public String toString(){
         return "The head on "+head.getVal()+"\nTo the right "

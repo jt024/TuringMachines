@@ -45,9 +45,9 @@
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="bnStart" alignment="1" min="-2" pref="154" max="-2" attributes="0"/>
                   <Component id="pnTape" alignment="1" max="32767" attributes="0"/>
                   <Component id="pnExecute" alignment="1" max="32767" attributes="0"/>
+                  <Component id="bnStart" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

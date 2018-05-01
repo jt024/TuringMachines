@@ -291,9 +291,9 @@ public class main extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bnStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnTape, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnExecute, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnExecute, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bnStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -338,12 +338,12 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_bnStartActionPerformed
 
     private void bnCreateRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRuleActionPerformed
-        tm = new TuringMachine(numChars*states);
-
-
+        if (tm==null) {
+            tm = new TuringMachine(numChars*states);
+        }
         if (checkRules()<0)
             return;
-        pnExecute.setVisible(true);
+//        pnExecute.setVisible(true);
         // current
         int cs = Integer.parseInt(tfCurrentState.getText());
         char cv = tfCurrentValue.getText().charAt(0);
@@ -357,9 +357,9 @@ public class main extends javax.swing.JFrame {
         
 //        instructions[counter.getRCount()-1] = new Instruction(cs,cv,sc,vc,dir);
        
-        ta2User.setText("Rule Created: \n"+instructions[counter.getRCount()-1].toString());
-        ta2User.append("\n\n\n\nOnce all the rules are entered you and you have a tape\n"
-                + "you can run the machine");
+        ta2User.setText(tm.rToString());
+//        ta2User.append("\n\n\n\nOnce all the rules are entered you and you have a tape\n"
+//                + "you can run the machine");
         
         counter.decRBar();
         
@@ -406,13 +406,14 @@ public class main extends javax.swing.JFrame {
         for(char b : temp){
             tm.addTape(new Link(b));
         }
-        
+        System.out.println(tm.tToString());
         
         
     }//GEN-LAST:event_bnAddTapeActionPerformed
 
     private void bnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnExecuteActionPerformed
-        
+        tm.runOnce();
+        ta2User.setText(tm.tToString());
     }//GEN-LAST:event_bnExecuteActionPerformed
 
     /**
@@ -489,7 +490,7 @@ public class main extends javax.swing.JFrame {
     public void assignment(){
         pnRule.setVisible(false);
         pnTape.setVisible(false);
-        pnExecute.setVisible(false);
+//        pnExecute.setVisible(false);
         String line;
         
         try {
