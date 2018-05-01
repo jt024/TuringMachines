@@ -11,7 +11,8 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import data.Instruction;
-import data.Tape;
+import data.Link;
+import data.TuringMachine;
 import tools.Counter;
 
 /**
@@ -22,9 +23,10 @@ import tools.Counter;
 */
 public class main extends javax.swing.JFrame {
     StringBuilder sb,rc = new StringBuilder();
+    TuringMachine tm;
     public int currentState = 1, numChars, states, head;
     Instruction[] instructions;
-    Tape tape;
+    TuringMachine tape;
     char[] characters;
     Counter counter;
     
@@ -336,6 +338,9 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_bnStartActionPerformed
 
     private void bnCreateRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRuleActionPerformed
+        tm = new TuringMachine(numChars*states);
+
+
         if (checkRules()<0)
             return;
         pnExecute.setVisible(true);
@@ -348,7 +353,9 @@ public class main extends javax.swing.JFrame {
         int sc = Integer.parseInt(tfChange2State.getText());
         String dir = tfDirection.getText();;
         
-        instructions[counter.getRCount()-1] = new Instruction(cs,cv,sc,vc,dir);
+        tm.addRule(new Instruction(cs,cv,sc,vc,dir));
+        
+//        instructions[counter.getRCount()-1] = new Instruction(cs,cv,sc,vc,dir);
        
         ta2User.setText("Rule Created: \n"+instructions[counter.getRCount()-1].toString());
         ta2User.append("\n\n\n\nOnce all the rules are entered you and you have a tape\n"
@@ -393,86 +400,18 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_tfAddCharActionPerformed
 
     private void bnAddTapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddTapeActionPerformed
-        if (tfTape.getText().equals("")) {
-            ta2User.setText("You must enter a letter sequence in the field below");
-            return;
+        String tapeIn = tfTape.getText();
+        char[] temp = tapeIn.toCharArray();
+        
+        for(char b : temp){
+            tm.addTape(new Link(b));
         }
-        int tapeLength = tfTape.getText().length();
-        tape = new Tape(tapeLength);
-        int t = 0;
-        
-        while(t < tapeLength){
-            tape.setChar(tfTape.getText().charAt(t), t);
-            t++;
-        }
-        if (checkTape()<0) {
-            ta2User.setText("One or more characters on your tape don't match the characters you entered");
-            tape = null;
-            return;
-        }
-        ta2User.setText(tape.toString());
-        
-        System.out.println("Added");
-        
-
-        
-        
         
         
         
     }//GEN-LAST:event_bnAddTapeActionPerformed
 
     private void bnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnExecuteActionPerformed
-        if (tape.getLength()<1) {
-            ta2User.setText("You forgot the tape");
-            return;
-        }
-        
-        ta2User.setText("Starting State = " + currentState+"\n");
-        ta2User.append(tape.toString()+"\n");
-        
-        
-        head = tape.getLength() / 2;
-        char hChar = tape.getChar(head);
-        boolean notFinal = true;
-        do{
-        
-        Instruction temp = new Instruction();
-        
-        for (int i = 0; i < instructions.length; i++) {
-            if (instructions[i].getCS()==currentState && instructions[i].getCV() == hChar) {
-                temp = instructions[i];
-            }
-        }
-        System.out.println(temp.toString());
-        
-        tape.setChar(temp.getVC(), head);
-        head = head + move(temp.getDir());
-        if(checkHead()<0){
-            ta2User.setText("I have reached the left end of the tape and got stuck.\n"
-                    + "Try again");
-            return;
-        }
-        if(checkHead()>0){
-            ta2User.setText("I have reached the right end of the tape and got stuck.\n"
-                    + "Try again");
-            return;
-        }
-        if (currentState==states) {
-            ta2User.setText("I have reached the Final Accepting State.");
-            return;                
-        }
-        
-        currentState = temp.getSC();
-        
-        ta2User.append("Current State = " + currentState);
-        ta2User.append(tape.toString()+"\n");
-        
-        
-        } while (notFinal);
-        
-        
-        
         
     }//GEN-LAST:event_bnExecuteActionPerformed
 
@@ -623,44 +562,11 @@ public class main extends javax.swing.JFrame {
         return 1;
     }
     
-    public int checkTape(){
-        int test=0;
-        for (int j = 0; j < characters.length; j++) {
-            for (int i = 0; i < tape.getLength(); i++) {
-                if (characters[j]==tape.getChar(i)) {
-                    test++;
-                }
-            }
-        }
-        
-        if (test==tape.getLength()) {
-            return 1;
-        }
-        
-        return -1;
-            
-        
-    }
+
     
-    public int move(String dir){
-        
-        if (dir.equalsIgnoreCase("r")) {
-            return 1;
-        }
-        return -1;
-        
-    }
+
     
-    public int checkHead(){
-        if (head<0) {
-            return -1;
-        }
-        if (head>tape.getLength()) {
-            return 2;
-        }
-        
-        return 0;
-    }
+
     
     
 }
