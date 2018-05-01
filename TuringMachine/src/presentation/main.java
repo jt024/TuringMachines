@@ -55,57 +55,48 @@ public class main extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jRadioButton3 = new javax.swing.JRadioButton();
-        bnStart = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ta2User = new javax.swing.JTextArea();
-        pnRule = new javax.swing.JPanel();
+        bnExecute = new javax.swing.JButton();
+        tfTape = new javax.swing.JTextField();
+        bnAddTape = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        bnCreateRule = new javax.swing.JButton();
+        tfCurrentState = new javax.swing.JTextField();
+        tfCurrentValue = new javax.swing.JTextField();
+        tfValueChange = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         tfChange2State = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         tfDirection = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        bnCreateRule = new javax.swing.JButton();
-        tfCurrentState = new javax.swing.JTextField();
-        tfCurrentValue = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        lbRuleCount = new javax.swing.JLabel();
-        bnAddChar = new javax.swing.JButton();
-        tfAddChar = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        lbCharacterCount = new javax.swing.JLabel();
-        tfValueChange = new javax.swing.JTextField();
-        pnTape = new javax.swing.JPanel();
-        bnAddTape = new javax.swing.JButton();
-        tfTape = new javax.swing.JTextField();
-        pnExecute = new javax.swing.JPanel();
-        bnExecute = new javax.swing.JButton();
 
         jRadioButton3.setText("jRadioButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        bnStart.setText("Get Started");
-        bnStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnStartActionPerformed(evt);
-            }
-        });
 
         ta2User.setColumns(20);
         ta2User.setLineWrap(true);
         ta2User.setRows(5);
         jScrollPane1.setViewportView(ta2User);
 
-        jLabel4.setText(",");
+        bnExecute.setText("Run Once");
+        bnExecute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnExecuteActionPerformed(evt);
+            }
+        });
 
-        jLabel6.setText(",");
-
-        jLabel7.setText("(");
+        bnAddTape.setText("Add Tape");
+        bnAddTape.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bnAddTapeActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText(",");
 
@@ -124,94 +115,68 @@ public class main extends javax.swing.JFrame {
 
         jLabel5.setText(")");
 
-        bnAddChar.setText("Add Character");
-        bnAddChar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnAddCharActionPerformed(evt);
-            }
-        });
+        jLabel4.setText(",");
 
-        tfAddChar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAddCharActionPerformed(evt);
-            }
-        });
+        jLabel6.setText(",");
 
-        jLabel9.setText("Remaining Rules");
+        jLabel7.setText("(");
 
-        jLabel10.setText("Remaining Characters");
-
-        javax.swing.GroupLayout pnRuleLayout = new javax.swing.GroupLayout(pnRule);
-        pnRule.setLayout(pnRuleLayout);
-        pnRuleLayout.setHorizontalGroup(
-            pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnRuleLayout.createSequentialGroup()
-                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(pnRuleLayout.createSequentialGroup()
-                            .addComponent(jLabel10)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tfTape, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bnAddTape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(bnExecute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lbCharacterCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(pnRuleLayout.createSequentialGroup()
-                            .addComponent(jLabel9)
+                            .addComponent(tfCurrentState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lbRuleCount, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnRuleLayout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCurrentState, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfChange2State, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfValueChange, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnRuleLayout.createSequentialGroup()
-                                .addComponent(tfAddChar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(bnAddChar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pnRuleLayout.createSequentialGroup()
-                                .addComponent(tfDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(bnCreateRule, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfChange2State, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfValueChange, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(5, 5, 5)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bnCreateRule, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        pnRuleLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfAddChar, tfChange2State, tfCurrentState, tfCurrentValue, tfDirection});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfChange2State, tfCurrentState, tfCurrentValue, tfDirection});
 
-        pnRuleLayout.setVerticalGroup(
-            pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnRuleLayout.createSequentialGroup()
-                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(lbRuleCount, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(lbCharacterCount, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfAddChar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bnAddChar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bnAddTape, bnCreateRule});
+
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tfChange2State, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
                         .addComponent(jLabel6)
@@ -220,129 +185,31 @@ public class main extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addComponent(bnCreateRule)
                         .addComponent(tfValueChange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnRuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tfCurrentState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
                         .addComponent(jLabel4)
                         .addComponent(tfCurrentValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfTape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bnAddTape))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bnExecute)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnRuleLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bnAddChar, bnCreateRule});
-
-        pnRuleLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbCharacterCount, lbRuleCount, tfAddChar, tfChange2State, tfCurrentState, tfCurrentValue, tfDirection});
-
-        bnAddTape.setText("Add Tape");
-        bnAddTape.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnAddTapeActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnTapeLayout = new javax.swing.GroupLayout(pnTape);
-        pnTape.setLayout(pnTapeLayout);
-        pnTapeLayout.setHorizontalGroup(
-            pnTapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bnAddTape, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(tfTape)
-        );
-        pnTapeLayout.setVerticalGroup(
-            pnTapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnTapeLayout.createSequentialGroup()
-                .addComponent(bnAddTape)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tfTape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        bnExecute.setText("Execute");
-        bnExecute.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bnExecuteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnExecuteLayout = new javax.swing.GroupLayout(pnExecute);
-        pnExecute.setLayout(pnExecuteLayout);
-        pnExecuteLayout.setHorizontalGroup(
-            pnExecuteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnExecuteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bnExecute, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnExecuteLayout.setVerticalGroup(
-            pnExecuteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bnExecute)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnRule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnTape, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnExecute, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bnStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnTape, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnExecute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25)
-                .addComponent(pnRule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {tfChange2State, tfCurrentState, tfCurrentValue, tfDirection});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnStartActionPerformed
-        getStates();
-        getCharacters();
-        characters = new char[numChars];
-        instructions = new Instruction[states*numChars];
-        
-        ta2User.setText("There will be "+ states +" states"
-                + " and "
-                + numChars+" characters \nThat is"
-                + " gives you a maximum of "
-                + (states*numChars)+" rules to work with.\n"
-                + "When you run out of the lines below "
-                + "you are out of rules");
-        int rules = numChars*states;
-        System.out.println(rules);
-//        TuringMachine tm = new TuringMachine(numChars, states);
-        counter = new Counter(rules, numChars);
-        lbRuleCount.setText(counter.getRBar());
-        lbCharacterCount.setText(counter.getCBar());
-        pnRule.setVisible(true);
-    }//GEN-LAST:event_bnStartActionPerformed
-
     private void bnCreateRuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnCreateRuleActionPerformed
         if (tm==null) {
-            tm = new TuringMachine(numChars*states);
+            tm = new TuringMachine(1000);
         }
-        if (checkRules()<0)
-            return;
 //        pnExecute.setVisible(true);
         // current
         int cs = Integer.parseInt(tfCurrentState.getText());
@@ -351,7 +218,7 @@ public class main extends javax.swing.JFrame {
         // change to this
         char vc = tfValueChange.getText().charAt(0);
         int sc = Integer.parseInt(tfChange2State.getText());
-        String dir = tfDirection.getText();;
+        String dir = tfDirection.getText();
         
         tm.addRule(new Instruction(cs,cv,sc,vc,dir));
         
@@ -361,9 +228,9 @@ public class main extends javax.swing.JFrame {
 //        ta2User.append("\n\n\n\nOnce all the rules are entered you and you have a tape\n"
 //                + "you can run the machine");
         
-        counter.decRBar();
+
         
-        lbRuleCount.setText(counter.getRBar());
+
         tfCurrentState.setText("");
         tfCurrentValue.setText("");
         tfValueChange.setText("");
@@ -377,29 +244,11 @@ public class main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_bnCreateRuleActionPerformed
 
-    private void bnAddCharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddCharActionPerformed
-        if (counter.getCCount()<1) {
-            ta2User.setText("Sorry you have already entered "+numChars+" characters");
-            return;
-        }
-        pnTape.setVisible(true);
-        characters[counter.getCCount()-1] = tfAddChar.getText().charAt(0);
-        ta2User.setText(String.valueOf(characters[counter.getCCount()-1]));
-        counter.decCBar();
-        lbCharacterCount.setText(counter.getCBar());
-        tfAddChar.setText("");
-        tfAddChar.requestFocus();
-        
-//        System.out.println(characters[cCount-1]);
-               
-        
-    }//GEN-LAST:event_bnAddCharActionPerformed
-
-    private void tfAddCharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAddCharActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfAddCharActionPerformed
-
     private void bnAddTapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnAddTapeActionPerformed
+        if (tm==null) {
+            tm = new TuringMachine(1000);
+        }
+        
         String tapeIn = tfTape.getText();
         char[] temp = tapeIn.toCharArray();
         
@@ -407,6 +256,7 @@ public class main extends javax.swing.JFrame {
             tm.addTape(new Link(b));
         }
         System.out.println(tm.tToString());
+        ta2User.setText(tm.tToString());
         
         
     }//GEN-LAST:event_bnAddTapeActionPerformed
@@ -452,14 +302,11 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bnAddChar;
     private javax.swing.JButton bnAddTape;
     private javax.swing.JButton bnCreateRule;
     private javax.swing.JButton bnExecute;
-    private javax.swing.JButton bnStart;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -467,16 +314,9 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbCharacterCount;
-    private javax.swing.JLabel lbRuleCount;
-    private javax.swing.JPanel pnExecute;
-    private javax.swing.JPanel pnRule;
-    private javax.swing.JPanel pnTape;
     private javax.swing.JTextArea ta2User;
-    private javax.swing.JTextField tfAddChar;
     private javax.swing.JTextField tfChange2State;
     private javax.swing.JTextField tfCurrentState;
     private javax.swing.JTextField tfCurrentValue;
@@ -488,8 +328,6 @@ public class main extends javax.swing.JFrame {
 
     
     public void assignment(){
-        pnRule.setVisible(false);
-        pnTape.setVisible(false);
 //        pnExecute.setVisible(false);
         String line;
         
@@ -528,46 +366,4 @@ public class main extends javax.swing.JFrame {
             // ex.printStackTrace();
         }
     }   
-    
-    public void getStates(){
-        // ask user for number of characters
-        states = Integer.parseInt(JOptionPane.showInputDialog(
-        frame, 
-        "Enter the total number of states", 
-        "STATES", 
-        JOptionPane.WARNING_MESSAGE)
-        );
-    }
-    // ask user for number of characters
-    public void getCharacters(){
-        numChars = Integer.parseInt(JOptionPane.showInputDialog(            
-            frame, 
-            "Enter the total number of characters", 
-            "Characters", 
-            JOptionPane.WARNING_MESSAGE)
-        );
-    }    
-    
-    public int checkRules(){
-        if (counter.getRCount()<1) {
-            ta2User.setText("Sorry man you use all the possible rules!");
-            return-1;
-        }
-        
-        if (Integer.parseInt(tfCurrentState.getText())>states || Integer.parseInt(tfCurrentState.getText())< 1) {
-            ta2User.setText("Sorry, the starting state of that rule needs to\n"
-                    + "be between 0 and "+states);
-            return-1;
-        }
-        
-        return 1;
-    }
-    
-
-    
-
-    
-
-    
-    
 }

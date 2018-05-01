@@ -25,6 +25,11 @@ public class TuringMachine {
     }
 
     public void runOnce(){
+        for (int i = 0; i < 3; i++) {
+            head = head.getRight();
+        }
+        
+        
         for (int i = 0; i < ruleCount-1; i++) {
             if (head.getVal()==rules[i].getCV() && state==rules[i].getCS()) {
                 head.setVal(rules[i].getVC());
